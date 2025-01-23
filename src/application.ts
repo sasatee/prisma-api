@@ -1,5 +1,5 @@
 import {BootMixin} from '@loopback/boot';
-import {ApplicationConfig} from '@loopback/core';
+import {ApplicationConfig, createBindingFromClass} from '@loopback/core';
 import {
   RestExplorerBindings,
   RestExplorerComponent,
@@ -9,6 +9,11 @@ import {RestApplication} from '@loopback/rest';
 import {ServiceMixin} from '@loopback/service-proxy';
 import path from 'path';
 import {MySequence} from './sequence';
+import { JWTAuthMiddleware } from './middlewares/auth.middleware';
+import {AuthenticationComponent} from '@loopback/authentication';
+import {JWTAuthenticationStrategy} from './authentication-strategies/jwt-strategy';
+import {TokenServiceBindings} from './keys';
+import {JWTService} from './services/jwt.service';
 
 
 export {ApplicationConfig};
@@ -22,12 +27,16 @@ export class LoopbackPrismaApiApplication extends BootMixin(
     // Set up the custom sequence
     this.sequence(MySequence);
 
+    // Set up authentication
+    this.component(AuthenticationComponent);
+    this.bind(TokenServiceBindings.TOKEN_SERVICE).toClass(JWTService);
+    this.add(createBindingFromClass(JWTAuthenticationStrategy, {
+      key: 'authentication.strategies.jwt',
+    }));
     
-
-    
-
     // Set up default home page
     this.static('/', path.join(__dirname, '../public'));
+
 
   
 
