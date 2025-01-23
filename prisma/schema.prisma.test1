@@ -1,0 +1,356 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model GML_EPOS_MD_AR_INVOICE {
+  trxkey                 Int       @id
+  trxlineid              BigInt
+  businessunitid         BigInt?
+  businessunitname       String?
+  invoicesource          String
+  betonsales             String?
+  salestype              String?
+  transactionbatchsource String?
+  transactiontypename    String?
+  transactiontypeid      BigInt?
+  transactionnumber      String?
+  ordernumber            String?
+  transactiondate        DateTime? @db.Timestamptz(6)
+  salespersonid          BigInt?
+  salespersonname        String?
+  customername           String?
+  customeraccountnumber  String?
+  customerid             BigInt?
+  billtoaddress          String?
+  shiptoaddress          String?
+  billtositenumber       Int?
+  shiptositenumber       Int?
+  invoicecurrency        String?
+  paymentterms           String?
+  outletcode             String?
+  outletid               Int?
+  epostrxid              Int?
+  createreceipt          Boolean?
+  receiptnumber          String?
+  receiptdate            DateTime? @db.Timestamptz(6)
+  remittancebank         String?
+  itemcode               String?
+  itemdescription        String?
+  uom                    String?
+  quantity               Decimal?  @db.Decimal
+  unitsellingprice       Decimal?  @db.Decimal
+  amount                 Decimal?  @db.Decimal
+  vatcode                String?
+  arsequencenumber       BigInt?
+  counttrxlines          Int?
+  interfacestatus        String?   @default("New")
+  transactionstatus      String?
+  receiptstatus          String?
+  errordescription       String?
+  created                DateTime? @default(dbgenerated("'2020-09-10 16:51:01.177768+00'::timestamp with time zone")) @db.Timestamptz(6)
+  modified               DateTime? @default(dbgenerated("'2020-09-10 16:51:01.177768+00'::timestamp with time zone")) @db.Timestamptz(6)
+  createdby              String?
+  modifiedby             String?
+  deletedby              String?
+  receiptmethod          String?
+  receiptmethodid        BigInt?
+  chequenumber           String?
+  receiptref             String?
+  applyreceiptstatus     String?
+  vatamount              Decimal?  @db.Decimal
+  customerporef          String?
+  comments               String?
+}
+
+model GML_EPOS_TRX_TYPE_SITE_MAP {
+  id                  Int     @id @default(autoincrement())
+  ordertype           String?
+  itembu              Int?
+  outletid            Int?
+  shipfromsite        String?
+  fusiontrxtypename   String?
+  fusiontrxtypeid     String?
+  customerid          String?
+  siteid              String?
+  sitename            String?
+  itemid              String?
+  itemdescription     String?
+  salestype           String?
+  creditnotetrxtype   String?
+  creditnotetrxtypeid String?
+}
+
+model GML_FS_MD_CUSTOMERS {
+  customerid          BigInt    @id
+  customername        String?
+  customernumber      Int?
+  clientemail         String?
+  contactperson       String?
+  mobilen0            String?
+  address1            String?
+  address2            String?
+  address3            String?
+  address4            String?
+  skipcreditcheck     String    @default("N")
+  lastupdatedate      DateTime? @db.Timestamp(6)
+  billtoaddressid     String?
+  billtosideid        String?
+  firstname           String?
+  lastname            String?
+  title               String?
+  origsystemreference String?
+  paymenttermid       String?
+  status              String?
+  isactive            Boolean?  @default(true)
+  taxexempted         String?
+  taxreference        String?
+  billtositeid        String?
+  telephone           String?
+  credithold          String?
+  hidename            String?
+  bu20transportcharge String?
+  bu30transportcharge String?
+  customertype        String?
+  customerclasscode   String?
+  creditlimit         Int?
+  businessregno       String?
+  personfirstname     String?
+  personlastname      String?
+  persontitle         String?
+  emailaddress        String?
+  contactnumber       String?
+  allowover6mthsbal   String    @default("N")
+  createdby           String?
+  gclcreditlimit      Decimal?  @db.Decimal
+  lastupdatedby       String?
+  partyid             String?
+  creationdate        DateTime? @db.Timestamp(6)
+  lastupdatedbyname   String?
+  createdbyname       String?
+  appuserid           Int?
+}
+
+model GML_FS_MD_CUSTOMERS_SITES {
+  id                     Int     @id @default(autoincrement())
+  siteid                 String?
+  customerid             String?
+  siteno                 String?
+  appuserid              Int?
+  description            String?
+  status                 String?
+  trxtypeid              String?
+  region                 String?
+  salebyvolume           String?
+  address4               String?
+  address2               String?
+  address3               String?
+  accountcode            String?
+  stockflag              String?
+  typeofsales            String?
+  code1                  String?
+  code2                  String?
+  code3                  String?
+  code4                  String?
+  code5                  String?
+  code6                  String?
+  sitetel                String?
+  sitedate               String?
+  printpriceflag         String?
+  badsiteid              String?
+  defaultsupplierid      String?
+  locationcode           String?
+  origsiteid             String?
+  siteusecode            String?
+  addresscategory        String?
+  specialcontract        String?
+  transportformularate   String?
+  sitenote               String?
+  bu20transportcharge    String?
+  bu30transportcharge    String?
+  bypassbolsuppliercheck String?
+  gammarevtogl           String?
+  manualboulderstrips    String?
+  orgid                  String?
+  sitesalesrepid         String?
+  primaryflag            String?
+  xcoordinate            String?
+  ycoordinate            String?
+  receivableaccount      String?
+  receivableccid         String?
+  shiptositeemail        String?
+  firstname              String?
+  lastname               String?
+}
+
+model GML_FS_STATEMENT_OF_ACCT {
+  id                     Int       @id @default(autoincrement())
+  customertrxid          BigInt
+  customerid             BigInt?
+  customername           String?
+  customerno             String?
+  orderno                String?
+  customerpono           String?
+  daysoverdue            Int?
+  due                    Decimal?  @db.Decimal
+  duedate                DateTime? @db.Timestamp(6)
+  invno                  String?
+  lastupdatedate         DateTime? @db.Timestamp(6)
+  location               String?
+  month                  String?
+  salesrepid             BigInt?
+  salesrepname           String?
+  terms                  String?
+  trxamt                 Decimal?  @db.Decimal
+  trxdate                DateTime? @db.Timestamp(6)
+  trxsource              String?
+  trxtype                String?
+  typename               String?
+  years                  Int?
+  lineid                 BigInt?
+  itemcode               String?
+  shiptositename         String?
+  qtyinvoiced            Decimal?  @db.Decimal
+  shiptositeid           BigInt?
+  unitsellingprice       Decimal?  @db.Decimal
+  shiptositecontactemail String?
+  uom                    String?
+  itemdescription        String?
+  currency               String?
+  itemcategory           String?
+  vatamt                 Decimal?  @db.Decimal
+  extendedamt            Decimal?  @db.Decimal
+  deliveredpercentage    Decimal?  @db.Decimal
+  qtyorder               Decimal?  @db.Decimal
+}
+
+model appuser {
+  firstname            String
+  lastname             String
+  email                String
+  password             String
+  roleid               Int?
+  rolename             String?
+  id                   Int       @id @default(autoincrement())
+  contactphone         String?
+  locked               Boolean?  @default(false)
+  passwordexpired      Boolean?  @default(false)
+  badpasswordcount     Int?      @default(0)
+  customerid           String
+  passwordresetexpired DateTime? @db.Timestamptz(6)
+  passwordresettoken   String?
+  siteid               String?
+  createdate           DateTime? @db.Timestamptz(6)
+  updatedate           DateTime? @db.Timestamptz(6)
+}
+
+model appusercustomersitemappings {
+  id         Int     @id @default(autoincrement())
+  customerid String?
+  siteid     String?
+  appuserid  Int?
+}
+
+model appusersitemapping {
+  id         Int     @id @default(autoincrement())
+  appuserid  Int?
+  customerid String?
+  siteid     String?
+}
+
+model opt {
+  id                  Int      @id @default(autoincrement())
+  optcodeverification String
+  expirydate          DateTime @db.Timestamptz(6)
+  isverified          Boolean? @default(false)
+  userid              Int?
+}
+
+model role {
+  id   Int    @id @default(autoincrement())
+  name String
+}
+
+model salesorderheader {
+  id                  Int       @id @default(autoincrement())
+  businessunit        String?
+  orderno             String
+  orderdate           DateTime? @db.Timestamptz(6)
+  customername        String?
+  brnnic              String?
+  paymentterm         String?
+  workorderno         String?
+  quoteno             String?
+  billtoaddress       String?
+  shiptoaddress       String?
+  shiptodescription   String?
+  shiptofulladdress   String?
+  purchaseorderno     String?
+  ordertype           String?
+  pricelist           String?
+  betonsales          String?
+  transportrequired   String?
+  sitevisitedby       String?
+  shippinginstruction String?
+  transportCharges    Decimal?  @db.Decimal
+  transportPayables   Decimal?  @db.Decimal
+  distance            Decimal?  @db.Decimal
+  orderAmt            Decimal?  @db.Decimal
+  totalQty            Decimal?  @db.Decimal
+  status              String?
+  errordescription    String?
+  oracleorderno       String?
+  isoffline           Boolean?  @default(false)
+  cancellationreason  String?
+  pushtofusion        Boolean?  @default(false)
+  pushtofusiondate    DateTime? @db.Timestamptz(6)
+  failedpushcount     Int?      @default(0)
+  creatednotifon      DateTime? @db.Timestamptz(6)
+  customerstatus      String?
+  approvername        String?
+  customerid          BigInt?
+}
+
+model salesorderline {
+  id                    Int      @id @default(autoincrement())
+  inventoryitemid       String
+  quantity              Int
+  unitprice             Int?
+  totalamount           Int?
+  description           String?
+  istransportcalculated Boolean? @default(false)
+  orderno               String?
+  lineno                String?
+  itemcode              String?
+  itemdescription       String?
+}
+
+model ytdallsites {
+  id             Int     @id @default(autoincrement())
+  year           Int?
+  category       String?
+  volume         String?
+  uom            String?
+  amount         String?
+  currencysymbol String?
+  customerid     String?
+}
+
+model ytdallsitespermonth {
+  year           Int?
+  id             Int     @id @default(autoincrement())
+  month          String?
+  category       String?
+  volume         String?
+  uom            String?
+  amount         String?
+  currencysymbol String?
+  siteno         String?
+  siteid         String?
+  customerid     String?
+  sites          String?
+}
